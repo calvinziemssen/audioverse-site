@@ -8,53 +8,113 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{ --bg:#0b0b0b; --card:#121212; --muted:#bdbdbd; --text:#ffffff; --accent:#2aa3ff; --accent-2:#6ae1ff; --radius:22px; --shadow:0 10px 30px rgba(0,0,0,.5); }
+    :root{
+      --card:rgba(18,18,18,.88);
+      --muted:#cfcfcf; --text:#ffffff;
+      --accent:#2aa3ff; --accent-2:#6ae1ff;
+      --radius:22px; --shadow:0 10px 30px rgba(0,0,0,.5);
+    }
     *{box-sizing:border-box}
-    html,body{margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
+    html,body{margin:0; padding:0; color:var(--text);
+      font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased}
+    /* BG fallback com gradiente; se tiveres imagem, vê .bg-image mais abaixo */
+    body{
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(42,163,255,.12), transparent 60%),
+        radial-gradient(1000px 500px at 120% 10%, rgba(106,225,255,.10), transparent 65%),
+        linear-gradient(180deg, #0b0c10 0%, #0a0b0f 60%, #090a0e 100%);
+      color:#fff;
+    }
+    /*ATIVAR imagem de background: remove o comentário abaixo e coloca assets/background.png*/
+    body.bg-image{
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.65)),
+        url("assets/background.png") center / cover no-repeat;
+      background-attachment: fixed, fixed;
+    }
+    
     a{color:var(--accent); text-decoration:none}
-    a:hover{opacity:.9}
+    a:hover{opacity:.92}
+    img{max-width:100%; height:auto}
     .container{max-width:1100px; margin:0 auto; padding:0 22px}
-    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px); background:rgba(11,11,11,.6); border-bottom:1px solid rgba(255,255,255,.06)}
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px);
+      background:rgba(11,11,11,.5); border-bottom:1px solid rgba(255,255,255,.06)}
     nav{display:flex; align-items:center; justify-content:space-between; height:66px}
-    nav .brand{display:flex; align-items:center; gap:12px}
-    nav img.logo{height:34px; width:auto; display:block}
-    nav .brand h1{font-size:16px; margin:0; letter-spacing:.14em; font-weight:800}
-    nav .links{display:flex; gap:18px; align-items:center}
-    nav .links a{font-weight:600; font-size:14px; color:#eaeaea}
-    .btn{display:inline-flex; align-items:center; gap:10px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#000; padding:12px 18px; border-radius:14px; font-weight:700}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand img.logo{height:34px}
+    .brand h1{font-size:16px; margin:0; letter-spacing:.14em; font-weight:800}
+    .links{display:flex; gap:18px; align-items:center}
+    .links a{font-weight:600; font-size:14px; color:#eaeaea}
+    .btn{display:inline-flex; align-items:center; gap:10px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#000;
+      padding:12px 18px; border-radius:14px; font-weight:700}
     .btn.outline{background:transparent; border:1px solid rgba(255,255,255,.16); color:#fff}
-    .lang-toggle{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:8px 12px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#000; border:0; cursor:pointer; font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:.05em}
-    .hero{position:relative; padding:110px 0 90px; overflow:hidden}
+    .lang-toggle{display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:8px 12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#000; border:0; cursor:pointer;
+      font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:.05em}
+    .lang-toggle:hover{filter:brightness(1.05)}
+    .hamburger{display:none; width:40px; height:40px; border:1px solid rgba(255,255,255,.12);
+      border-radius:10px; background:rgba(0,0,0,.35); position:relative}
+    .hamburger span,.hamburger:before,.hamburger:after{content:""; position:absolute; left:8px; right:8px; height:2px; background:#fff}
+    .hamburger span{top:19px}
+    .hamburger:before{top:12px}
+    .hamburger:after{top:26px}
+    .mobile-menu{display:none; position:fixed; top:66px; left:0; right:0; background:var(--card);
+      border-top:1px solid rgba(255,255,255,.06); box-shadow:var(--shadow); padding:16px; z-index:40}
+    .mobile-menu.open{display:block}
+    .mobile-menu a, .mobile-menu button{display:block; width:100%; text-align:left; padding:12px 10px; border-radius:12px; margin-bottom:8px}
+    .hero{position:relative; padding:84px 0 64px; overflow:hidden}
     .hero .grid{display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:center}
     .hero .title{font-size:44px; line-height:1.1; margin:0 0 10px; font-weight:800}
     .hero .subtitle{color:var(--muted); margin:0 0 26px; font-weight:400}
     .hero .cta{display:flex; gap:12px; flex-wrap:wrap}
-    .hero .hero-card{background:radial-gradient(1200px 400px at -10% 0%, rgba(42,163,255,.18), transparent 60%), var(--card); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow)}
-    .hero .badge{display:inline-flex; align-items:center; gap:8px; font-size:13px; color:#d9f2ff; background:rgba(42,163,255,.12); border:1px solid rgba(42,163,255,.25); padding:6px 10px; border-radius:999px; margin-bottom:16px}
+    .hero .hero-card{background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+    .hero .badge{display:inline-flex; align-items:center; gap:8px; font-size:13px; color:#d9f2ff;
+      background:rgba(42,163,255,.12); border:1px solid rgba(42,163,255,.25); padding:6px 10px; border-radius:999px; margin-bottom:16px}
     .hero-logo{display:flex; align-items:center; justify-content:center}
-    .hero-logo img{max-width:100%; height:auto; border-radius:12px; box-shadow:0 25px 70px rgba(0,0,0,.55)}
-    section{padding:80px 0}
-    section h2{font-size:28px; margin:0 0 18px}
-    section .lead{color:var(--muted); max-width:760px}
+    .cards{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:18px}
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:16px; padding:16px; box-shadow:var(--shadow)}
+    .card h3{margin:0 0 6px; font-size:18px}
+    .card p{margin:0; color:#d6d6d6}
+    section{padding:64px 0}
+    section h2{font-size:28px; margin:0 0 14px}
+    section .lead{color:#e4e4e4; max-width:760px}
     .service-list{display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px}
-    .service-item{display:flex; align-items:flex-start; gap:12px; background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:14px 16px}
+    .service-item{display:flex; align-items:flex-start; gap:12px; background:var(--card);
+      border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:14px 16px}
     .dot{width:8px; height:8px; border-radius:999px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); margin-top:7px}
-    .contact-wrap{display:grid; grid-template-columns:1fr 1fr; gap:20px}
-    .contact-card{background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:22px}
+    .contact-wrap{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    .contact-card{background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:16px; padding:18px}
     .contact-row{display:flex; align-items:center; justify-content:space-between; margin-top:10px}
-    .small{font-size:13px; color:var(--muted)}
-    footer{padding:30px 0; border-top:1px solid rgba(255,255,255,.06); color:#9a9a9a}
+    .small{font-size:13px; color:#dcdcdc}
+    input, textarea{width:100%; padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0f0f0f; color:#fff}
+    textarea{resize:vertical}
+    footer{padding:26px 0; border-top:1px solid rgba(255,255,255,.06); color:#cfcfcf}
+
     @media (max-width: 920px){
-      .hero .grid{grid-template-columns:1fr; gap:26px}
+      .hero .grid{grid-template-columns:1fr; gap:22px}
+      .hero .title{font-size:34px}
+      .hero-logo{order:-1}
+      .cards{grid-template-columns:1fr}
       .contact-wrap{grid-template-columns:1fr}
-      nav .links{gap:12px}
+      .links{display:none}
+      .hamburger{display:inline-block}
     }
-    input, textarea{padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0f0f0f; color:#fff}
-    label{display:flex; flex-direction:column; gap:6px}
-  .lang-toggle:hover{filter:brightness(1.05)}
+    @media (max-width: 640px){
+      .container{padding:0 16px}
+      .hero{padding:74px 0 48px}
+      .hero .title{font-size:28px}
+      .btn{padding:12px 16px}
+      .brand h1{display:none}
+    }
   </style>
 </head>
 <body>
+  <!-- Para usar imagem de fundo, adiciona a classe bg-image no body -->
+  <body class="bg-image">
+
   <header>
     <div class="container">
       <nav>
@@ -68,7 +128,17 @@
           <a id="navWhats" class="btn outline" href="https://wa.me/351967901853" target="_blank" rel="noopener">WhatsApp</a>
           <button id="langToggle" class="lang-toggle" type="button">EN</button>
         </div>
+        <button id="hamburger" class="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menu"><span></span></button>
       </nav>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" role="dialog" aria-modal="true" aria-labelledby="mNavTitle">
+      <div class="container">
+        <div id="mNavTitle" style="font-weight:800; letter-spacing:.08em; margin-bottom:6px">MENU</div>
+        <a id="mNavServices" href="#servicos" onclick="closeMobile()">Serviços</a>
+        <a id="mNavContact" href="#contactos" onclick="closeMobile()">Contactos</a>
+        <a id="mNavWhats" class="btn" href="https://wa.me/351967901853" target="_blank" rel="noopener" onclick="closeMobile()">WhatsApp</a>
+        <button id="mLang" class="lang-toggle" type="button">EN</button>
+      </div>
     </div>
   </header>
 
@@ -80,11 +150,11 @@
         <p id="heroSubtitle" class="subtitle">Clareza, potência e detalhe — em qualquer palco ou sala.</p>
         <div class="cta">
           <a id="ctaCall" class="btn" href="tel:+351967901853">Ligar agora</a>
-          <a id="ctaQuote" class="btn outline" href="mailto:audioverse@gmail.com">Pedir orçamento</a>
+          <a id="ctaQuote" class="btn outline" href="mailto:audioverse.contact@gmail.com">Pedir orçamento</a>
         </div>
-        <div class="cards" style="display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:24px">
+        <div class="cards">
           <div class="card"><h3 id="card2Title">Operação técnica</h3><p id="card2Text">Técnico dedicado do soundcheck ao último aplauso.</p></div>
-          <div class="card"><h3 id="card3Title">Logística & montagem</h3><p id="card3Text">Transporte e montagem incluídos no serviço.</p></div>
+          <div class="card"><h3 id="card3Title">Logística & montagem</h3><p id="card3Text">Transporte, montagem e afinação incluídos no serviço.</p></div>
         </div>
       </div>
       <div class="hero-logo">
@@ -102,6 +172,7 @@
         <div class="service-item"><span class="dot"></span><div id="s2">Produção de som para <strong>eventos corporativos</strong>.</div></div>
         <div class="service-item"><span class="dot"></span><div id="s3">Soluções de áudio para <strong>casamentos</strong>.</div></div>
         <div class="service-item"><span class="dot"></span><div id="s4">Som de qualidade para <strong>festas privadas</strong>.</div></div>
+        <div class="service-item"><span class="dot"></span><div id="s5">Serviço profissional de <strong>DJ para eventos</strong>.</div></div>
       </div>
     </div>
   </section>
@@ -113,13 +184,13 @@
         <div class="contact-card">
           <p id="contactLead" class="small">Fala connosco — respondemos rápido.</p>
           <div class="contact-row"><span id="labelPhone">Telefone</span><a id="valPhone" href="tel:+351967901853">+351 967 901 853</a></div>
-          <div class="contact-row"><span id="labelEmail">Email</span><a id="valEmail" href="mailto:audioverse@gmail.com">audioverse@gmail.com</a></div>
+          <div class="contact-row"><span id="labelEmail">Email</span><a id="valEmail" href="mailto:audioverse.contact@gmail.com">audioverse.contact@gmail.com</a></div>
           <div class="contact-row"><span id="labelWhats">WhatsApp</span><a id="valWhats" href="https://wa.me/351967901853" target="_blank" rel="noopener">Enviar mensagem</a></div>
         </div>
         <div class="contact-card">
           <h3 id="formTitle" style="margin:0 0 8px">Pedir orçamento</h3>
           <p id="formLead" class="small">Diz-nos o essencial e voltamos já com uma proposta.</p>
-          <form id="contactForm" action="https://formsubmit.co/audioverse@gmail.com" method="POST">
+          <form id="contactForm" action="https://formsubmit.co/audioverse.contact@gmail.com" method="POST">
             <input type="hidden" name="_subject" value="Pedido de orçamento — AUDIOVERSE" />
             <input type="hidden" name="_template" value="table" />
             <input type="hidden" name="_captcha" value="false" />
@@ -141,7 +212,7 @@
             </label>
             <div class="cta" style="margin-top:10px">
               <button id="btnSubmit" type="submit" class="btn">Enviar pedido</button>
-              <a id="btnAlt" class="btn outline" href="mailto:audioverse@gmail.com?subject=Pedido%20de%20or%C3%A7amento%20AUDIOVERSE">Preferes email?</a>
+              <a id="btnAlt" class="btn outline" href="mailto:audioverse.contact@gmail.com?subject=Pedido%20de%20or%C3%A7amento%20AUDIOVERSE">Preferes email?</a>
             </div>
           </form>
         </div>
@@ -159,85 +230,79 @@
   <script>
     const i18n = {
       pt: {
-        navServices: 'Serviços', navContact: 'Contactos', navWhats: 'WhatsApp', langBtn: 'EN',
-        badge: 'The art of sound',
-        heroTitle: 'Serviços de áudio profissional para <span style="color:var(--accent)">concertos</span>, <span style="color:var(--accent)">eventos de empresa</span> e <span style="color:var(--accent)">casamentos</span>.',
-        heroSubtitle: 'Clareza, potência e detalhe — em qualquer palco ou sala.',
-        ctaCall: 'Ligar agora', ctaQuote: 'Pedir orçamento',
-        card2Title: 'Operação técnica', card2Text: 'Técnico dedicado do soundcheck ao último aplauso.',
-        card3Title: 'Logística & montagem', card3Text: 'Transporte e montagem incluídos no serviço.',
-        servicesH2: 'Serviços', servicesLead: 'Soluções de áudio profissional, desenhadas à medida do teu evento.',
-        s1: 'Áudio profissional para <strong>concertos e espetáculos</strong>.',
-        s2: 'Produção de som para <strong>eventos corporativos</strong>.',
-        s3: 'Soluções de áudio para <strong>casamentos</strong>.',
-        s4: 'Som de qualidade para <strong>festas privadas</strong>.',
-        contactH2: 'Contactos', contactLead: 'Fala connosco — respondemos rápido.',
-        labelPhone: 'Telefone', labelEmail: 'Email', labelWhats: 'WhatsApp', valWhats: 'Enviar mensagem',
-        availability: 'Disponível para Lisboa e arredores. Também viajamos mediante orçamento.',
-        bullets: 'Horários flexíveis • Equipamento testado • Técnico dedicado',
-        btnCall2: 'Ligar agora', btnQuote2: 'Pedir proposta',
-        footerSlogan: 'The art of sound', footerNote: 'Condições especiais para eventos recorrentes e parcerias.',
-        formTitle: 'Pedir orçamento', formLead: 'Diz-nos o essencial e voltamos já com uma proposta.',
-        lblName: 'Nome*', lblEmail: 'Email*', lblPhone: 'Telefone', lblDate: 'Data do evento', lblLocation: 'Local', lblMsg: 'Mensagem*',
-        lblConsent: 'Concordo em ser contactado pela AUDIOVERSE para este pedido.', btnSubmit: 'Enviar pedido', btnAlt: 'Preferes email?'
+        navServices:'Serviços', navContact:'Contactos', navWhats:'WhatsApp', langBtn:'EN',
+        mNavServices:'Serviços', mNavContact:'Contactos', mNavWhats:'WhatsApp',
+        badge:'The art of sound',
+        heroTitle:'Serviços de áudio profissional para <span style="color:var(--accent)">concertos</span>, <span style="color:var(--accent)">eventos de empresa</span> e <span style="color:var(--accent)">casamentos</span>.',
+        heroSubtitle:'Clareza, potência e detalhe — em qualquer palco ou sala.',
+        ctaCall:'Ligar agora', ctaQuote:'Pedir orçamento',
+        card2Title:'Operação técnica', card2Text:'Técnico dedicado do soundcheck ao último aplauso.',
+        card3Title:'Logística & montagem', card3Text:'Transporte, montagem e afinação incluídos no serviço.',
+        servicesH2:'Serviços', servicesLead:'Soluções de áudio profissional, desenhadas à medida do teu evento.',
+        s1:'Áudio profissional para <strong>concertos e espetáculos</strong>.',
+        s2:'Produção de som para <strong>eventos corporativos</strong>.',
+        s3:'Soluções de áudio para <strong>casamentos</strong>.',
+        s4:'Som de qualidade para <strong>festas privadas</strong>.',
+        s5: 'Serviço profissional de <strong>DJ para eventos</strong>.',
+        contactH2:'Contactos', contactLead:'Fala connosco — respondemos rápido.',
+        labelPhone:'Telefone', labelEmail:'Email', labelWhats:'WhatsApp', valWhats:'Enviar mensagem',
+        footerSlogan:'The art of sound', footerNote:'Condições especiais para eventos recorrentes e parcerias.',
+        formTitle:'Pedir orçamento', formLead:'Diz-nos o essencial e voltamos já com uma proposta.',
+        lblName:'Nome*', lblEmail:'Email*', lblPhone:'Telefone', lblDate:'Data do evento', lblLocation:'Local', lblMsg:'Mensagem*',
+        lblConsent:'Concordo em ser contactado pela AUDIOVERSE para este pedido.', btnSubmit:'Enviar pedido', btnAlt:'Preferes email?'
       },
       en: {
-        navServices: 'Services', navContact: 'Contact', navWhats: 'WhatsApp', langBtn: 'PT',
-        badge: 'The art of sound',
-        heroTitle: 'Professional audio services for <span style="color:var(--accent)">live shows</span>, <span style="color:var(--accent)">corporate events</span> and <span style="color:var(--accent)">weddings</span>.',
-        heroSubtitle: 'Clarity, power and detail — on any stage or room.',
-        ctaCall: 'Call now', ctaQuote: 'Request a quote',
-        card2Title: 'Technical operation', card2Text: 'Dedicated engineer from soundcheck to encore.',
-        card3Title: 'Logistics & setup', card3Text: 'Transport and setup included.',
-        servicesH2: 'Services', servicesLead: 'Professional audio solutions tailored to your event.',
-        s1: 'Pro audio for <strong>concerts & live shows</strong>.',
-        s2: 'Sound production for <strong>corporate events</strong>.',
-        s3: 'Audio solutions for <strong>weddings</strong>.',
-        s4: 'Quality sound for <strong>private parties</strong>.',
-        contactH2: 'Contact', contactLead: 'Talk to us — we reply fast.',
-        labelPhone: 'Phone', labelEmail: 'Email', labelWhats: 'WhatsApp', valWhats: 'Send message',
-        availability: 'Available for Lisbon area. We also travel on request.',
-        bullets: 'Flexible hours • Tested gear • Dedicated engineer',
-        btnCall2: 'Call now', btnQuote2: 'Request proposal',
-        footerSlogan: 'The art of sound', footerNote: 'Special terms for recurring events and partnerships.',
-        formTitle: 'Request a quote', formLead: 'Tell us the essentials and we’ll reply with a proposal.',
-        lblName: 'Name*', lblEmail: 'Email*', lblPhone: 'Phone', lblDate: 'Event date', lblLocation: 'Location', lblMsg: 'Message*',
-        lblConsent: 'I agree to be contacted by AUDIOVERSE regarding this request.', btnSubmit: 'Send request', btnAlt: 'Prefer email?'
+        navServices:'Services', navContact:'Contact', navWhats:'WhatsApp', langBtn:'PT',
+        mNavServices:'Services', mNavContact:'Contact', mNavWhats:'WhatsApp',
+        badge:'The art of sound',
+        heroTitle:'Professional audio services for <span style="color:var(--accent)">live shows</span>, <span style="color:var(--accent)">corporate events</span> and <span style="color:var(--accent)">weddings</span>.',
+        heroSubtitle:'Clarity, power and detail — on any stage or room.',
+        ctaCall:'Call now', ctaQuote:'Request a quote',
+        card2Title:'Technical operation', card2Text:'Dedicated engineer from soundcheck to encore.',
+        card3Title:'Logistics & setup', card3Text:'Transport, setup and tuning included.',
+        servicesH2:'Services', servicesLead:'Professional audio solutions tailored to your event.',
+        s1:'Pro audio for <strong>concerts & live shows</strong>.',
+        s2:'Sound production for <strong>corporate events</strong>.',
+        s3:'Audio solutions for <strong>weddings</strong>.',
+        s4:'Quality sound for <strong>private parties</strong>.',
+        s5: 'Professional <strong>DJ service for events</strong>.',
+        contactH2:'Contact', contactLead:'Talk to us — we reply fast.',
+        labelPhone:'Phone', labelEmail:'Email', labelWhats:'WhatsApp', valWhats:'Send message',
+        footerSlogan:'The art of sound', footerNote:'Special terms for recurring events and partnerships.',
+        formTitle:'Request a quote', formLead:'Tell us the essentials and we’ll reply with a proposal.',
+        lblName:'Name*', lblEmail:'Email*', lblPhone:'Phone', lblDate:'Event date', lblLocation:'Location', lblMsg:'Message*',
+        lblConsent:'I agree to be contacted by AUDIOVERSE regarding this request.', btnSubmit:'Send request', btnAlt:'Prefer email?'
       }
     };
 
     function applyLang(lang){
       const t = i18n[lang];
-      const ids = ['navServices','navContact','navWhats','badge','heroTitle','heroSubtitle','ctaCall','ctaQuote','card2Title','card2Text','card3Title','card3Text','servicesH2','servicesLead','s1','s2','s3','s4','contactH2','contactLead','labelPhone','labelEmail','labelWhats','valWhats','availability','bullets','btnCall2','btnQuote2','footerSlogan','footerNote','formTitle','formLead','lblName','lblEmail','lblPhone','lblDate','lblLocation','lblMsg','lblConsent','btnSubmit','btnAlt'];
-      ids.forEach(id=>{
-        const el = document.getElementById(id);
-        if(!el) return;
-        const key = id;
-        if(['heroTitle','s1','s2','s3','s4'].includes(id)) el.innerHTML = t[key]; else el.textContent = t[key];
-      });
-      const btn = document.getElementById('langToggle');
-      btn.textContent = t.langBtn;
-      btn.setAttribute('aria-label', t.langBtn === 'EN' ? 'Mudar idioma para inglês' : 'Switch language to Portuguese');
-      document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt' : 'en');
-      document.documentElement.dataset.lang = lang;
-      localStorage.setItem('av_lang', lang);
-      // placeholders
+      const ids = ['navServices','navContact','navWhats','badge','heroTitle','heroSubtitle','ctaCall','ctaQuote','card2Title','card2Text','card3Title','card3Text','servicesH2','servicesLead','s1','s2','s3','s4','s5','contactH2','contactLead','labelPhone','labelEmail','labelWhats','valWhats','footerSlogan','footerNote','formTitle','formLead','lblName','lblEmail','lblPhone','lblDate','lblLocation','lblMsg','lblConsent','btnSubmit','btnAlt','mNavServices','mNavContact','mNavWhats'];
+      ids.forEach(id=>{ const el=document.getElementById(id); if(!el) return; if(['heroTitle','s1','s2','s3','s4','s5'].includes(id)) el.innerHTML=t[id]; else el.textContent=t[id]; });
+      const btn = document.getElementById('langToggle'); btn.textContent = t.langBtn;
+      const mBtn = document.getElementById('mLang'); mBtn.textContent = t.langBtn;
+      document.documentElement.setAttribute('lang', lang==='pt'?'pt':'en');
+      document.documentElement.dataset.lang = lang; localStorage.setItem('av_lang', lang);
+
+      // Placeholders
       document.getElementById('fldName').placeholder = (lang==='pt'?'O teu nome':'Your name');
       document.getElementById('fldEmail').placeholder = (lang==='pt'?'teu@email.com':'your@email.com');
-      document.getElementById('fldPhone').placeholder = (lang==='pt'?'+351 9xx xxx xxx':'+351 9xx xxx xxx');
+      document.getElementById('fldPhone').placeholder = '+351 9xx xxx xxx';
       document.getElementById('fldLocation').placeholder = (lang==='pt'?'Cidade / espaço':'City / venue');
       document.getElementById('fldMsg').placeholder = (lang==='pt'?'Tipo de evento, horários, nº de pessoas…':'Event type, schedule, headcount…');
     }
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    function closeMobile(){ mobileMenu.classList.remove('open'); hamburger.setAttribute('aria-expanded','false'); }
+    hamburger.addEventListener('click', ()=>{ const open = mobileMenu.classList.toggle('open'); hamburger.setAttribute('aria-expanded', open?'true':'false'); });
 
     document.getElementById('y').textContent = new Date().getFullYear();
     const stored = localStorage.getItem('av_lang');
     const initial = stored || (navigator.language && navigator.language.startsWith('pt') ? 'pt' : 'en');
     applyLang(initial);
-    document.getElementById('langToggle').addEventListener('click', ()=>{
-      const current = document.documentElement.dataset.lang || 'pt';
-      const next = current === 'pt' ? 'en' : 'pt';
-      applyLang(next);
-    });
+    document.getElementById('langToggle').addEventListener('click', ()=>{ const current=document.documentElement.dataset.lang||'pt'; applyLang(current==='pt'?'en':'pt'); });
+    document.getElementById('mLang').addEventListener('click', ()=>{ const current=document.documentElement.dataset.lang||'pt'; applyLang(current==='pt'?'en':'pt'); });
   </script>
 </body>
 </html>
