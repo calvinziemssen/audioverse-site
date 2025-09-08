@@ -6,6 +6,7 @@
   <title>AUDIOVERSE — The art of sound</title>
   <meta name="description" content="Serviços de áudio profissional para concertos, eventos corporativos, casamentos e festas privadas. Lisboa e arredores." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -370,6 +371,31 @@ document.getElementById('contactForm').addEventListener('submit', async (e)=>{
   }
 })();
 </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+<script>
+  (function(){
+    // deteta suporte nativo a input[type=date]
+    var test = document.createElement('input');
+    test.setAttribute('type','date');
+    var supportsNative = (test.type === 'date');
+
+    // Aplica flatpickr se não houver date nativo OU força no desktop para UX consistente
+    var isDesktop = window.matchMedia('(pointer:fine)').matches;
+    if (!supportsNative || isDesktop) {
+      flatpickr('#fldDate', {
+        dateFormat: 'Y-m-d',        // valor enviado no form
+        altInput: true,             // mostra formato amigável
+        altFormat: 'd/m/Y',         // o que o utilizador vê
+        allowInput: true,
+        locale: flatpickr.l10ns.pt, // PT-PT
+        disableMobile: true         // força o calendário também em desktop
+      });
+    }
+  })();
+</script>
+
 
     
 </body>
