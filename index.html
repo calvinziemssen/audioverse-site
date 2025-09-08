@@ -191,12 +191,8 @@
           <h3 id="formTitle" style="margin:0 0 8px">Pedir orçamento</h3>
           <p id="formLead" class="small">Diz-nos o essencial e voltamos já com uma proposta.</p>
 
-    <form id="contactForm"
-      action="https://formsubmit.co/audioverse.contact@gmail.com"
-      method="POST"
-      enctype="application/x-www-form-urlencoded">
-
-  <!-- Anti-spam: deixa vazio -->
+<form id="contactForm" method="POST" enctype="application/x-www-form-urlencoded">
+  <!-- Anti-spam (deixa vazio) -->
   <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
 
   <!-- Opções do FormSubmit -->
@@ -241,6 +237,30 @@
     <a id="btnAlt" class="btn outline" href="mailto:audioverse.contact@gmail.com?subject=Pedido%20de%20or%C3%A7amento%20AUDIOVERSE">Preferes email?</a>
   </div>
 </form>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+
+  try{
+    const res = await fetch('https://formsubmit.co/ajax/audioverse.contact@gmail.com', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: data
+    });
+    if(res.ok){
+      window.location.href = 'thanks.html';
+    }else{
+      alert('Não foi possível enviar. Tenta de novo, por favor.');
+    }
+  }catch(err){
+    alert('Erro de rede. Verifica a ligação e tenta novamente.');
+  }
+});
+</script>
+
 
 
         </div>
@@ -332,5 +352,25 @@
     document.getElementById('langToggle').addEventListener('click', ()=>{ const current=document.documentElement.dataset.lang||'pt'; applyLang(current==='pt'?'en':'pt'); });
     document.getElementById('mLang').addEventListener('click', ()=>{ const current=document.documentElement.dataset.lang||'pt'; applyLang(current==='pt'?'en':'pt'); });
   </script>
+
+    <script>
+(function(){
+  var i = document.createElement('input');
+  i.setAttribute('type','date');
+  var supportsDate = (i.type === 'date');
+  if(!supportsDate){
+    var d = document.getElementById('fldDate');
+    if(d){
+      d.setAttribute('type','text');
+      d.setAttribute('placeholder', 'AAAA-MM-DD');
+      d.setAttribute('inputmode','numeric');
+      d.setAttribute('pattern','\\d{4}-\\d{2}-\\d{2}');
+      d.title = 'Formato: AAAA-MM-DD';
+    }
+  }
+})();
+</script>
+
+    
 </body>
 </html>
